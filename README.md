@@ -1,51 +1,83 @@
 # PDF Chatbot
 
-## Overview
-
-The PDF Chatbot is a Streamlit application that allows users to interact with PDF documents. Users can upload multiple PDF files, and the chatbot uses Google Generative AI to answer questions based on the content of the uploaded documents. The application utilizes Langchain for processing text and managing conversational interactions.
+A Streamlit application that allows users to upload PDF files, analyze the content, and interact with the documents through a conversational chatbot. The application utilizes Google Generative AI for embeddings and conversation, FAISS for vector storage, and PyPDF2 for PDF parsing.
 
 ## Features
 
-- Upload multiple PDF files and extract text from them.
-- Split extracted text into manageable chunks.
-- Use a vector store (FAISS) to enable fast similarity searches.
-- Ask questions about the content of the uploaded PDFs, with context-based responses.
+- Upload multiple PDF files.
+- Extract text from the uploaded PDFs.
+- Split the extracted text into manageable chunks.
+- Create and store a vector representation of the text using FAISS.
+- Conversational AI interface to interact with the content of the PDFs.
 
-## Requirements
+## Prerequisites
 
-- Python 3.7 or higher
-- Streamlit
-- Langchain
-- PyPDF2
-- dotenv
-- langchain-google-genai
-- langchain-community
+- Python 3.10+
+- Google API Key for Generative AI
 
 ## Installation
 
-1. Install the required packages : `pip install -r requirements.txt`
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/yourusername/pdf-chatbot.git
+    cd pdf-chatbot
+    ```
 
-2. Create a .env file in the root of the project and add your Google API key : `GOOGLE_API_KEY=your_google_api_key_here`
+2. Create and activate a virtual environment:
+    ```bash
+    python -m venv venv
+    source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
+    ```
+
+3. Install the required packages:
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+4. Set up environment variables:
+    Create a `.env` file in the root directory and add your Google API key:
+    ```plaintext
+    GOOGLE_API_KEY=your_google_api_key
+    ```
 
 ## Usage
 
-1. Run the streamlit app : `streamlit run app.py`
+1. Run the Streamlit application:
+    ```bash
+    streamlit run app.py
+    ```
 
-2. Open your web browser and go to http://localhost:8501.
+2. Open your web browser and navigate to `http://localhost:8501`.
 
-3. Use the sidebar to upload one or more PDF files.
+3. Use the sidebar to upload PDF files.
 
-4. After uploading, enter your questions in the text input field and press Enter. The chatbot will respond with answers based on the content of the PDFs.
+4. Click the "Submit" button to process the PDFs and create the vector store.
 
-## Code Structure
+5. Enter your questions in the input box to chat with the extracted content from the PDFs.
 
-- app.py: Main application file containing the logic for handling PDF uploads, text extraction, chunking, vector store creation, and user interaction.
+## Code Overview
 
-## Key Functions
+- `app.py`: Main application script.
+    - Handles file uploads, text extraction, text chunking, vector store creation, and user interaction.
+    - Defines the structure of the Streamlit application.
+  
+- `requirements.txt`: List of required Python packages.
 
-- get_pdf_reader(pdf_docs): Reads the uploaded PDF files and extracts text.
-- get_text_chunks(text): Splits the extracted text into manageable chunks for processing.
-- get_vector_store(text_chunks): Creates a FAISS vector store from the text chunks for efficient searching.
-- get_conversational_chain(): Initializes the QA chain using Google Generative AI.
-- load_faiss_index(pickle_file): Loads the FAISS index for similarity search.
-- user_input(user_question): Processes user questions, searches for similar documents, and provides responses.
+## Functions
+
+- `get_pdf_reader(pdf_docs)`: Reads the uploaded PDF files and extracts text.
+- `get_text_chunks(text)`: Splits the extracted text into manageable chunks.
+- `get_vector_store(text_chunks)`: Creates a vector store from the text chunks using FAISS and saves it locally.
+- `get_conversational_chain()`: Creates a conversational chain using Google Generative AI.
+- `load_faiss_index(pickle_file)`: Loads the FAISS index from a local file.
+- `user_input(user_question)`: Processes the user's input question and displays the response.
+
+## Security Notice
+
+The deserialization of FAISS index involves a potential security risk. Ensure you trust the source of the FAISS index file. The `allow_dangerous_deserialization=True` flag is set in the `load_faiss_index` function to handle this.
+
+
+
+https://github.com/user-attachments/assets/22ea18e1-bbb7-4dc2-8ba5-253e85847c3b
+
+
